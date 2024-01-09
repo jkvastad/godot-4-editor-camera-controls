@@ -4,7 +4,7 @@
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_tgwfn"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_w7cvu"]
+[sub_resource type="BoxMesh" id="BoxMesh_lgbhl"]
 
 [node name="Main" type="Node"]
 
@@ -16,8 +16,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CylinderMesh_tgwfn")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-mesh = SubResource("PlaneMesh_w7cvu")
+transform = Transform3D(2, 0, 0, 0, 0.1, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_lgbhl")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
