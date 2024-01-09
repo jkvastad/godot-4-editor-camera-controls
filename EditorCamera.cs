@@ -2,7 +2,7 @@ using Godot;
 
 public partial class EditorCamera : Camera3D
 {
-    bool _looking = false;
+    bool _isLooking = false;
     float _totalPitch = 0;
     float _mouseSensitivity = 0.25f;
 
@@ -13,13 +13,15 @@ public partial class EditorCamera : Camera3D
             if (mouseButton.Pressed && mouseButton.ButtonIndex == MouseButton.Right)
             {
                 Input.MouseMode = Input.MouseModeEnum.Captured;
+                _isLooking = true;
             }
             if (!mouseButton.Pressed && mouseButton.ButtonIndex == MouseButton.Right)
             {
                 Input.MouseMode = Input.MouseModeEnum.Visible;
+                _isLooking = false;
             }
         }
-        if (@event is InputEventMouseMotion mouseMotion)
+        if (@event is InputEventMouseMotion mouseMotion && _isLooking)
         {
             Vector2 relativeMotion = mouseMotion.Relative * _mouseSensitivity;
             float yaw = relativeMotion.X;
