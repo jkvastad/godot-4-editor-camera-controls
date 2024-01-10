@@ -4,6 +4,7 @@ Camera controls to mimic the in editor 3D camera. Copy-paste to your heart's con
 Controls:
 
 * Hold right mouse button to look around. This captures the mouse so it won't move outside the game window.
+  * While holding right, use mousewheel up/down to increase/decrease movement speed.
 * Q/E for down/up
 * W/S for forward/backward
 * A/D for left/right
