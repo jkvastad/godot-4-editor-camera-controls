@@ -1,6 +1,8 @@
 # Godot 4 Editor Style Camera
 Camera controls to mimic the in editor 3D camera. Copy-paste to your heart's content!
 
+For more information on transforms and the basis (pun not intended) for the camera controls, check out the docs on [using 3D transforms](https://docs.godotengine.org/en/4.2/tutorials/3d/using_transforms.html).
+
 Controls:
 
 * Hold right mouse button to look around. This captures the mouse so it won't move outside the game window.
