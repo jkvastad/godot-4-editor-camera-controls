@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 public partial class EditorCamera : Camera3D
 {
+    const float piBy2 = Mathf.Pi / 2;
     bool _isLooking = false;
-    float _totalPitch = 0;
-    float _mouseSensitivity = 0.25f;
-    float speed = 5;
+    float _mouseSensitivity = 0.01f;
+    float _cameraSpeed = 5;
+    private float _rotationX = 0f;
+    private float _rotationY = 0f;
 
     Dictionary<Key, float> _isKeyPressed = new()
     {
@@ -26,7 +28,7 @@ public partial class EditorCamera : Camera3D
             _isKeyPressed[Key.S] - _isKeyPressed[Key.W]
             );
         direction = direction.Normalized();
-        Translate(direction * (float)delta * speed);
+        Translate(direction * (float)delta * _cameraSpeed);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -47,11 +49,11 @@ public partial class EditorCamera : Camera3D
         {
             if (_isLooking && mouseButton.ButtonIndex == MouseButton.WheelUp)
             {
-                speed += 1;
+                _cameraSpeed += 1;
             }
             if (_isLooking && mouseButton.ButtonIndex == MouseButton.WheelDown)
             {
-                if (speed > 1) speed -= 1;
+                if (_cameraSpeed > 1) _cameraSpeed -= 1;
             }
             if (mouseButton.Pressed && mouseButton.ButtonIndex == MouseButton.Right)
             {
@@ -66,16 +68,17 @@ public partial class EditorCamera : Camera3D
         }
         if (@event is InputEventMouseMotion mouseMotion && _isLooking)
         {
-            Vector2 relativeMotion = mouseMotion.Relative * _mouseSensitivity;
-            float yaw = relativeMotion.X;
+            // modify accumulated mouse rotation
+            _rotationX += mouseMotion.Relative.X * _mouseSensitivity;
+            _rotationY = Mathf.Clamp(_rotationY + mouseMotion.Relative.Y * _mouseSensitivity, -piBy2, piBy2);
 
-            float pitch = relativeMotion.Y;
-            pitch = Mathf.Clamp(pitch, -90 - _totalPitch, 90 - _totalPitch);
-            _totalPitch += pitch;
+            // reset rotation
+            Transform3D transform = Transform;
+            transform.Basis = Basis.Identity;
+            Transform = transform;
 
-            RotateY(Mathf.DegToRad(-yaw));
-            RotateObjectLocal(Vector3.Right, Mathf.DegToRad(-pitch));
+            RotateObjectLocal(Vector3.Up, -_rotationX); // first rotate about Y
+            RotateObjectLocal(Vector3.Right, -_rotationY); // then rotate about X
         }
-
     }
 }
