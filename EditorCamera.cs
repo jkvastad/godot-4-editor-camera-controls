@@ -22,13 +22,16 @@ public partial class EditorCamera : Camera3D
 
     public override void _Process(double delta)
     {
-        Vector3 direction = new Vector3(
+        if(_isLooking)
+        {
+            Vector3 direction = new Vector3(
             _isKeyPressed[Key.D] - _isKeyPressed[Key.A],
             _isKeyPressed[Key.E] - _isKeyPressed[Key.Q],
             _isKeyPressed[Key.S] - _isKeyPressed[Key.W]
             );
-        direction = direction.Normalized();
-        Translate(direction * (float)delta * _cameraSpeed);
+            direction = direction.Normalized();
+            Translate(direction * (float)delta * _cameraSpeed);
+        }        
     }
 
     public override void _UnhandledInput(InputEvent @event)
